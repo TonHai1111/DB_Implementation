@@ -1,0 +1,7 @@
+===============<Evaluation Information>==================
+Total number of buckets in database: 598
+MIN value: 0.0; MAX value: 31.90
+Interval: [0.15, 0.35]
+Scanned Buckets: 107
+Results: 63 buckets
+==========================<End>==========================
