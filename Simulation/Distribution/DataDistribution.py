@@ -1,5 +1,6 @@
 import numpy as np
 import pickle
+import random
 
 ############################## Helper Functions for Distribution ############################################
 def custDist1(x):
@@ -18,6 +19,45 @@ def custDist2(x):
          return 0.1
     elif ((x > 55) & (x <= 100)):
          return 0.45
+
+########### Data distribution generators ################
+'''
+Uniform_generator:
+Input: min, max, size, mode
+Output: output = {values} //an array of size random values in the range of [min, max]
+       mode = 0: integer
+       mode = 1: float
+The propability density of function of the uniform generator:
+ p(x) = 1/(max - min)  , for x in [min, max)
+ p(x) = 0              , for x elsewhere
+'''
+def Uniform_generator(min=0, max=10000, size=1000, mode=0):
+    if (mode == 0):
+        result = np.random.randint(min, max, size) #randint is also a uniform distribution
+        return result
+    else: 
+        result = np.random.uniform(min, max, size)
+        return result
+
+'''
+Gaussian_generator or Normal_generator
+Input: size, mode, mean, variance
+Output: output = {values}  //an array of size values 
+                           //value distribution goes with gaussian distribution or normal distribution
+                           // with given mean and variance
+       mode = 0: integer
+       mode = 1: float
+f(x) = [1/sqrt(2.pi.variance)].[e^{-[(x-mean)^2/(2.variance)]}]
+'''
+def Gaussian_generator(size=1000, mode=0, mean=5000.0, variance=1.0):
+    result = []
+    if (mode == 0):
+        temp = np.rint(float(mean) + float(variance) * np.random.randn(size))
+        result = temp.astype(int)
+        return result
+    else: #mode ==1
+        result = float(mean) + float(variance) * np.random.randn(size)
+        return result
 
 def random_custDist(x0,x1,custDist,size=None, nControl=10**6):
     #genearte a list of size random samples, obeying the distribution custDist
@@ -41,7 +81,7 @@ def random_custDist(x0,x1,custDist,size=None, nControl=10**6):
 #samples2.sort()
 #print(samples1)
 #print(samples2)
-
+'''
 ############################## Initialize Range and Sequence Length ############################################
 x0=0
 x1=100
@@ -49,7 +89,8 @@ sample_size = 148000000
 
 ############################## Initialize Buffer Cache ############################################
 tuple_size = 500   #50 bytes
-buffer_size = (100 * 1000 * 1000)/tuple_size
+buffer_size = 200000 # =(100 * 1000 * 1000)/tuple_size
+
 ######TM: initialize the buffer with -1 assuming no negative numbers
 def zerolistmaker(n):
     listofzeros = [-1] * n
@@ -58,14 +99,14 @@ buffer_cache = zerolistmaker(buffer_size)
 
 ############################## Initialize Window Intervals with Buffer cache Indexes ############################################
 
-window_size = (1 * 1000 * 1000)/tuple_size
-h,w = buffer_size-window_size+1, 5;
+window_size = int((1 * 1000 * 1000)/int(tuple_size))
+h,w = buffer_size-window_size+1, 5
 window_intervals = [[0 for x in range(w)] for y in range(h)]
 #print(window_intervals)
 
 from itertools import islice
 def window(window_intervals, seq, n=2):
-    print n
+    print(n)
     "Returns a sliding window (of width n) over data from the iterable"
     "   s -> (s0,s1,...s[n-1]), (s1,s2,...,sn), ...                   "
     it = iter(seq)
@@ -229,3 +270,4 @@ for i in range(num_queries, 0, -1):
     #print(str(i) + " " + "Q_A: " + str(range_a) + "Q_B "+ str(range_b) + "Num_disk: " + str(bucket_intersect_on_disk) + "Num_mem: " + str(bucket_intersect_in_mem))
 #print("Total Disk IO" + str(total_disk_io))
 
+'''
