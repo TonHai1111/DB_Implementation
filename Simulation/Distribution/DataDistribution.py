@@ -59,6 +59,49 @@ def Gaussian_generator(size=1000, mode=0, mean=5000.0, variance=1.0):
         result = float(mean) + float(variance) * np.random.randn(size)
         return result
 
+'''
+Triangular_generator
+Input: min, max, size, mode, peak
+Output: output = {values}  //an array of size values that belongs to [min, max]
+                           //value distribution goes with triangular distribution
+                           // with given min, max and peak
+       mode = 0: integer
+       mode = 1: float
+p(x) = 2(x-l)/[(max-min)(peak-min)]     , for x in [min, peak]
+p(x) = 2(max-x)/[(max-min)(peak-min)]   , for x in [peak, max]
+p(x) = 0                                , for x elsewhere
+'''
+def Triangular_generator(min=0, max=10000, size=1000, mode=0, peak=5000.0):
+    result = []
+    if (mode == 0):
+        temp = np.rint(np.random.triangular(min, peak, max, size))
+        result = temp.astype(int)
+        return result
+    else: #mode ==1
+        result = np.random.triangular(min, peak, max, size)
+        return result
+
+'''
+Wald_generator (or inverse Gaussian)
+Input: size, mode, mean, scale
+Output: output = {values}  //an array of size values that belongs to [min, max]
+                           //value distribution goes with Wald distribution or inverse Gaussian distribution
+                           // with given mean and scale
+       mode = 0: integer
+       mode = 1: float
+p(x) = sqrt[scale/(2.pi.x^3)].e^{[-scale.(x-mean)^2]/(2.x.mean^2)}
+'''
+def Wald_generator(size=1000, mode=0, mean=5000.0, scale=1):
+    result = []
+    if (mode == 0):
+        temp = np.rint(np.random.triangular(mean, scale, size))
+        result = temp.astype(int)
+        return result
+    else: #mode ==1
+        result = np.random.wald(mean, scale, size)
+        return result
+
+
 def random_custDist(x0,x1,custDist,size=None, nControl=10**6):
     #genearte a list of size random samples, obeying the distribution custDist
     #suggests random samples between x0 and x1 and accepts the suggestion with probability custDist(x)
