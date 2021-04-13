@@ -2,7 +2,11 @@ import numpy as np
 import pickle
 import random
 
-############################## Helper Functions for Distribution ############################################
+########### Data distribution generators ################
+'''
+#TODO: The original source code of custDist1, custDist2 Should be moved, 
+#   since they were rewritten using custDist function
+
 def custDist1(x):
     if ((x > 0) & (x < 50)):
         return 0.05
@@ -19,8 +23,39 @@ def custDist2(x):
          return 0.1
     elif ((x > 55) & (x <= 100)):
          return 0.45
+'''
 
-########### Data distribution generators ################
+'''
+custDist:
+input:  - interval: list of intervals: 
+                { (interval[0], interval[1]], 
+                (interval[1], interval[2]], 
+                ... 
+                (interval[n-1], interval[n]] }
+        - percentage: list of percentage for those intervals (total should be 1)
+                {percentage[0],
+                percentage[1],
+                ...
+                percentage[n-1]} 
+        - x: the input value
+Output: the percentage of the interval that x belongs to.
+
+For example custDist1 and custDist2 can be rewritten as follows: 
+    - custDist1 (x) = custDist([0, 50, 55, 100], [0.05, 0.9, 0.05], x)
+    - custDist2 (x) = custDist([0, 50, 55, 100], [0.45, 0.1, 0.45], x)
+'''
+def custDist(interval, percentage, x):
+    for i in range(len(interval)):
+        if(x > interval[i] & x <= interval[i+1]):
+            return percentage[i]
+    return -1
+
+def custDist1(x):
+    return custDist([0, 50, 55, 100], [0.05, 0.9, 0.05], x)
+
+def custDist2(x):
+    return custDist([0, 50, 55, 100], [0.45, 0.1, 0.45], x)
+
 '''
 Uniform_generator:
 Input: min, max, size, mode
