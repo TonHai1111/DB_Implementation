@@ -134,7 +134,7 @@ def evict_bucket(cache, cache_count, cache_limit, bucket_size, f_output_MinMax):
     end = cache_count
     MinMax = MAX_RANGE
     selected = 0
-    while (i < end - bucket_size):
+    while (i < end - bucket_size + 1):
         cur_MinMax = float(cache[i + bucket_size - 1]) - float(cache[i])
         if(MinMax > cur_MinMax):
             MinMax = cur_MinMax
@@ -144,7 +144,7 @@ def evict_bucket(cache, cache_count, cache_limit, bucket_size, f_output_MinMax):
     write_str = str(cache[selected]) + ", " + str(cache[selected + bucket_size - 1]) + "\n"
     f_output_MinMax.write(write_str)
     # Evict bucket from cache
-    i = selected
+    i = 0
     while (i < bucket_size):
         cache.pop(selected)
         i += 1
