@@ -3,7 +3,7 @@ import random
 
 ########### Data distribution generators ################
 '''
-#TODO: Remove the following original source code of custDist1, custDist2, 
+# Remove the following original source code of custDist1, custDist2, 
 #   since they were rewritten using custDist function
 
 def custDist1(x):
