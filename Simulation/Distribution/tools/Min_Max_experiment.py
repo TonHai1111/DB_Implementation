@@ -97,13 +97,13 @@ def binaryFind_pos(ListValue, start, end, value):
     if(start > end): #ListValue is empty
         return 0
     if(start == end):
-        if(value < ListValue[start]):
+        if(float(value) < float(ListValue[start])):
             return start
         else:
             return start + 1
 
     mid = int((end + start)/2)
-    if(value < ListValue[mid]):
+    if(float(value) < float(ListValue[mid])):
         return binaryFind_pos(ListValue, start, mid, value)
     else:
         return binaryFind_pos(ListValue, mid + 1, end, value)
@@ -219,18 +219,20 @@ def count_IO(MinMax_file, query_range):
     file_Min_Max = open(MinMax_file, 'r')
     for line in file_Min_Max:
         values = line.split(', ')
-        if((query_range[0] < values[0])):
-            if(query_range[1] >= values[0]):
+        if((float(query_range[0]) < float(values[0]))):
+            if(float(query_range[1]) >= float(values[0])):
                 result += 1
-        elif (query_range[0] == value[0]):
+        elif (float(query_range[0]) == float(values[0])):
             result += 1
         else:
-            if(query_range[0] <= values[1]):
+            if(float(query_range[0]) <= float(values[1])):
                 result += 1
     file_Min_Max.close()
     return result
 
 if __name__ == "__main__":
     
-    main()       
+    #main()
+    count = count_IO("Min_Max_Buckets_2.txt", [3.9, 5]);       
+    print (count)
     print("Done!")
